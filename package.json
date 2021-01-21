@@ -1,0 +1,23 @@
+{
+  "name": "discord_bot",
+  "version": "1.0.0",
+  "description": "A discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osidekyle/discord_bot.git"
+  },
+  "author": "Kyle Hawkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osidekyle/discord_bot/issues"
+  },
+  "homepage": "https://github.com/osidekyle/discord_bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
