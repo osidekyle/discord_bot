@@ -1,6 +1,8 @@
 require("dotenv").config()
 const ms=require("ms")
-
+const ytdl=require("ytdl-core")
+const ffmpeg=require("ffmpeg")
+const avconc=require("avconv")
 const Discord=require("discord.js")
 
 const client= new Discord.Client()
@@ -21,8 +23,15 @@ client.on("message",function(message){
         var query=playArray.slice(1)
         query=query.join(" ")
         console.log(query)
+        if(message.member.voice.channel!=null){
 
         
+        message.member.voice.channel.join().then(connection=>{
+            console.log("Connected to voice channel")
+            connection.play(ytdl("https://www.youtube.com/watch?v=_OBlgSz8sSM",{filter:"audioonly"}))
+        })
+
+    }
 
     }
 
