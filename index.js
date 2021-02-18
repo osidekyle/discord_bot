@@ -4,6 +4,7 @@ const ytdl=require("ytdl-core")
 const ffmpeg=require("ffmpeg")
 const avconc=require("avconv")
 const Discord=require("discord.js")
+const fetch=require("node-fetch")
 
 const client= new Discord.Client()
 
@@ -22,20 +23,36 @@ client.on("message",function(message){
         var playArray=message.content.split(" ")
         var query=playArray.slice(1)
         query=query.join(" ")
-        console.log(query)
-        if(message.member.voice.channel!=null){
-
-        
-        message.member.voice.channel.join().then(connection=>{
-            console.log("Connected to voice channel")
-            connection.play(ytdl("https://www.youtube.com/watch?v=_OBlgSz8sSM",{filter:"audioonly"}))
+        fetch(`https://www.googleapis.com/youtube/v3/search/?key=AIzaSyB3bCrT0aFWFeKVBMYzQYovZK_2vasARgs&part=snippet&q=${query}`)
+        .then(function(response){
+           return response.json()
+        })
+        .then(function(jsonData){
+                    
+                    if(message.member.voice.channel!=null){
+                        message.member.voice.channel.join().then(connection=>{
+                            console.log("Connected to voice channel")
+                            connection.play(ytdl(`https://www.youtube.com/watch?v=${jsonData.items[0].id.videoId}`,{filter:"audioonly"}))
+                        })
+                
+                    }
         })
 
-    }
+
+
+
+          
 
     }
 
-
+    if(message.content.startsWith("-leave")){
+        if(client.voice.channel){
+            client.voice.channel.leave()
+        }
+        else{
+            message.channel.send("You are not in a voice channel")
+        }
+    }
 
     if(message.content.startsWith("-mute")){
         var role=message.member.guild.roles.cache.find(role=>role.name=="muted")
